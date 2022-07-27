@@ -1,0 +1,146 @@
+package game;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Main {
+	
+	private static final int WIDTH = 256+16;
+	private static final int HEIGHT = 256+38;
+		
+		
+	private static GridInfo Ginfo;
+		
+	
+	public static void main(String[] args) {
+		
+		GameFrame gameFrame = new GameFrame();
+		
+		gameFrame.setTitle("15Puzzles");
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setSize(WIDTH,HEIGHT);
+		
+		gameFrame.setVisible(true);
+		
+	}
+}
+
+class GameFrame extends JFrame implements MouseListener{
+	
+	
+	private static final int Game_wait = 0;
+	
+	private static final int Game_Ing = 1;
+	
+	private static final int Grid_x = 4;
+
+	private static final int Grid_y = 4;
+	
+	private static final int Grid_width = 64;
+	
+	private static final int Grid_height = 64;
+	
+	private static int gameFlag;
+	
+	private static GridInfo Ginfo;
+	
+	private static ImageIcon titleImage[];
+	
+	private static JLabel label1[];
+	
+	GameFrame(){
+		
+		Ginfo = new GridInfo(Grid_x,Grid_y);
+		
+		titleImage = new ImageIcon[Grid_x*Grid_y+1];
+		
+		label1 = new JLabel[Grid_x*Grid_y+1];
+		
+		this.getContentPane().setLayout(null);
+		
+		DecimalFormat decimalFormat = new DecimalFormat("00");
+		
+		for(int i = 1;i < Grid_x * Grid_y;i++) {
+		
+			titleImage[i] = new ImageIcon("./src/game/images/"+decimalFormat.format(i)+".gif");
+			label1[i] = new JLabel(titleImage[i]);
+			
+			
+			for(int y = 0;y<Grid_y;y++) {
+				for(int x = 0;x<Grid_x;x++) {
+					if(Ginfo.getTitleNum(x,y) !=0) {
+						label1[Ginfo.getTitleNum(x,y)].setBounds(x*Grid_width,y*Grid_height,Grid_width,Grid_height);
+						
+						this.getContentPane().addMouseListener(this);
+					}
+				
+				
+				}
+			}
+		
+		}
+		public void gemeInit() {
+			Ginfo.shfletitle();
+			
+			gameFlag = GAME_ING;
+		}
+		
+		
+		
+		
+		public void mouseClick(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+			int clicktitlex;
+			int clicktitley;
+			boolean blnRet;
+			
+			switch(gameFlag) {
+			case GAME_WAIT:
+				System.out.println("GAME START");
+				gemeInit();
+				break;
+			case GAME_ING:
+				clicktitlex = (int)((e.getX()) / Grid_width);
+				
+				
+			
+			
+			
+			}
+		}
+			
+		
+		
+	
+	}
+
+
+}
+		
+		
+		
+		frame = new JFrame();
+		image = new ImageIcon("./src/game/test.jpg");
+		label = new JLabel(image);
+		
+		
+		frame.getContentPane().add(label);
+		frame.getContentPane().setLayout(null);
+		label.setBounds(0,0,1280,960);
+		
+		frame.setTitle("sample");
+		frame.setSize(1280,960);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
+	}
+	
+}

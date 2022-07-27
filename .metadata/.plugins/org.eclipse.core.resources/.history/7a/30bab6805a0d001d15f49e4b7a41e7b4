@@ -1,0 +1,25 @@
+package game2;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		JFrame gameFrame = new JFrame();
+		
+		gameFrame.getContentPane().add(new CanvasBoard());
+		
+		gameFrame.setTitle("gamefram");
+		gameFrame.setSize(500,300);
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setVisible(true);
+	}
+	
+	class CanvasBoard extends JPanel{
+		
+	}
+}
+

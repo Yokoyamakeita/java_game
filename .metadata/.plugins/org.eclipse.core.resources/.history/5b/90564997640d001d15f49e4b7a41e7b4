@@ -1,0 +1,111 @@
+package game2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JPanel;
+
+class CanvasBoard extends JPanel implements MouseListener{
+	
+	private int WIDTH;
+	private int HEIGHT;
+	private int GRID_X;
+	private int GRID_Y;
+	private int GRID_SIZE;
+	private int clickPosX;
+	private int clickPosY;
+	private GridInfo gridinfo;
+	
+	
+	CanvasBoard(int W,int H,int X,int Y,int S){
+		WIDTH = W;
+		HEIGHT = H;
+		GRID_X = X;
+		GRID_Y = Y;
+		GRID_SIZE = S;
+		gridinfo = new GridInfo(GRID_X,GRID_Y);
+		this.addMouseListener(this);
+		
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int clickPosX = 0;
+		int clickPosY = 0;
+		int clickTileX = 0;
+		int clickTileY = 0;
+		
+		clickPosX = e.getX();
+		clickPosY = e.getY();
+		
+		for(int loop = 0;loop < GRID_X;loop++) {
+			if(loop*GRID_SIZE <= clickPosX && clickPosX < (loop+1)*GRID_SIZE) {
+				clickTileX = loop;
+				break;
+			}
+		}
+		for(int loop = 0;loop < GRID_Y;loop++) {
+			if(loop*GRID_SIZE <= clickPosY && clickPosY < (loop+1)*GRID_SIZE) {
+				clickTileY = loop;
+				break;
+			}
+		}
+		gridinfo.setGridStateFlg(clickTileX,clickTileY);
+		repaint();
+	}
+	
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		super.paintComponent(g);
+			
+		g.setColor(new Color(0,120,0));
+		g.fillRect(0,0,WIDTH,HEIGHT);
+		
+		g.setColor(Color.black);
+		
+		for(int loopY = 0;loopY < GRID_Y;loopY++) {
+			g.drawLine(0, loopY*GRID_SIZE, WIDTH, loopY*GRID_SIZE);
+		}
+		for(int loopX = 0;loopX < GRID_X;loopX++) {
+			g.drawLine(loopX*GRID_SIZE, 0, loopX*GRID_SIZE, HEIGHT);
+		}
+		
+		for(int loopY=0;loopY <GRID_Y;loopY++) {
+			for(int loopX=0;loopX <GRID_X;loopX++) {
+				g.setColor(gridinfo.getGridStoneColor(loopX,loopY));
+				g.fillOval(loopX*GRID_SIZE+5,loopX*GRID_SIZE+5,30,30);
+			}
+		}
+		
+		
+		
+	}
+	
+}

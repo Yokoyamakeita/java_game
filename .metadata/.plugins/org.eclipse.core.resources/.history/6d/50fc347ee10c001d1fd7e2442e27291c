@@ -1,0 +1,21 @@
+package game;
+
+import javax.swing.*;
+
+public class Main {
+	private static JFrame frame;
+	private static ImageIcon image;
+	private static JLabel label;
+	
+	public static void main(String[] args) {
+		frame = new JFrame();
+		image = 
+		frame.setTitle("sample");
+		frame.setSize(640,480);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
+	}
+	
+}

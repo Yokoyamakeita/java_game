@@ -1,0 +1,335 @@
+package game2;
+
+import java.awt.Color;
+
+public class GridInfo {
+	public final int NON_STATE = 0;
+	public final int BLACK_STATE = 1;
+	public final int WHITE_STAGE = 2;
+	private int gridStateFlg[][];
+	private int tebanFlg;
+	
+	GridInfo(int x,int y){
+		gridStateFlg = new int[x][y];
+		for(int loopY = 0;loopY < y;loopY++) {
+			for(int loopX = 0;loopX < x;loopX++) {
+				gridStateFlg[loopX][loopY] = NON_STATE;
+			}
+		}
+//		初期設定
+		gridStateFlg[3][3] = WHITE_STAGE;
+		gridStateFlg[4][4] = WHITE_STAGE;
+		gridStateFlg[4][3] = BLACK_STATE;
+		gridStateFlg[3][4] = BLACK_STATE;
+		
+//		先手
+		tebanFlg = BLACK_STATE;
+		
+	}
+	
+	public void setGridstateFlg(int x,int y) {
+		if(tebanFlg == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+			tebanFlg = WHITE_STAGE;
+		}
+		else if(tebanFlg == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+			tebanFlg = BLACK_STATE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	public void setGridstateFlg(int x,int y,int owncolor) {
+		if(owncolor == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+		}else if(owncolor == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	public int reverseGrididStateFlg(int x,int y) {
+		boolean blnRet;
+		int ownColor;
+		int revColor;
+		int revCnt = 0;
+		int leftRevCnt = 0;
+		int leftTopRevCnt = 0;
+		int topRevCnt = 0;
+		int rightTopRevCnt = 0;
+		int rightRevCnt = 0;
+		int rightDownRevCnt = 0;
+		int downRevCnt = 0;
+		int leftDownRevCnt = 0;
+		
+		int loopx;
+		int loopy;
+		int gridStateTemp;
+		
+		gridStateTemp = this.getGridstateFlg(x, y);
+		
+		ownColor = tebanFlg;
+		
+		if(gridStateTemp == NON_STATE) {
+			
+			switch(ownColor) {
+			case BLACK_STATE:
+				revColor = WHITE_STAGE;
+				break;
+			default:
+				revColor = BLACK_STATE;
+				break;
+			}
+			
+			loopx = x -1 ;
+			while(this.chkReverse(loopx,y,revColor)) {
+				leftRevCnt += 1;
+				loopx -= 1;
+				
+				if(loopx < 0) {
+					leftRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(leftRevCnt >0) {
+				if(gridStateFlg[x][y] != ownColor) {
+					leftRevCnt = 0;
+				}
+			}
+			
+			loopx = x-1;
+			loopy = y -1;
+			
+			while(this.chkReverse(x,y,revColor)) {
+				leftTopRevCnt +=1;
+				loopx -=1;
+				loopy -=1;
+				
+				if(loopx < 0||loopy <0) {
+					leftTopRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(leftRevCnt >0) {
+				if(gridStateFlg[x][y] != ownColor) {
+					leftTopRevCnt= 0;
+				}
+			}
+			
+			loopy = y -1;
+			while(this.chkReverse(x,loopy,revColor)) {
+				topRevCnt += 1;
+				loopy -= 1;
+				
+				if(loopy <0) {
+					topRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(topRevCnt >0) {
+				if(gridStateFlg[loopy][x] != ownColor) {
+					topRevCnt = 0;
+				}
+			}
+			
+			loopx = x+1;
+			loopy = y-1;
+			
+			while(this.chkReverse(loopx,loopy,revColor)) {
+				rightTopRevCnt += 1;
+				loopx +=1;
+				loopy -=1;
+				
+				if(loopx >= x || loopy <0) {
+					rightTopRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(rightTopRevCnt > 0) {
+				if(gridStateFlg[loopx][loopy] != ownColor) {
+					rightTopRevCnt = 0;
+				}
+			}
+			
+			
+			
+			loopx = x+1;
+			while(this.chkReverse(loopx,y,revColor)) {
+				rightRevCnt += 1;
+				loopx += 1;
+				
+				if(loopx >= x) {
+					rightRevCnt = 0;
+					break;
+				}
+			}
+				
+				if(rightRevCnt >0) {
+					if(gridStateFlg[x][y] != ownColor) {
+						rightRevCnt = 0;
+					}
+				}
+				
+				loopx = x+1;
+				loopy = y+1;
+				
+				while(this.chkReverse(loopx,loopy,revColor)) {
+					rightDownRevCnt += 1;
+					loopx += 1;
+					loopy += 1;
+				}
+				if(loopx > x || loopy >= y) {
+					rightDownRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(rightDownRevCnt > 0) {
+				if(gridStateFlg[loopx][loopy] != ownColor) {
+					rightDownRevCnt = 0;
+				}
+			}
+			
+			
+			loopy = y +1;
+			while(this.chkReverse(x,loopy,revColor)) {
+				downRevCnt += 1;
+				loopy +=1;
+				if(loopy > y ) {
+					downRevCnt = 0;
+					break;
+				}
+			}
+			
+			if(downRevCnt >0) {
+				if(gridStateFlg[loopx][x] != ownColor){
+					downRevCnt = 0;
+				}
+			}
+			
+			loopx = x -1;
+			loopy = y-1;
+			
+			while(this.chkReverse(loopx,loopy,revColor)) {
+				leftDownRevCnt +=1;
+				loopx -= 1;
+				loopy += 1;
+				
+				if(loopx < 0 || loopy >= y) {
+					leftDownRevCnt = 0;
+					break;
+				}
+				if(leftDownRevCnt > 0) {
+					if(gridStateFlg[loopy][loopx] != ownColor) {
+						leftDownRevCnt = 0;
+					}
+				}
+				
+				revCnt = leftRevCnt +leftTopRevCnt + topRevCnt + rightTopRevCnt + rightRevCnt + rightDownRevCnt + downRevCnt + leftDownRevCnt;
+				if(revCnt <1) {
+					
+				}else {
+					blnRet = this.actionReverseGrid(x,y,ownColor,
+							leftRevCnt ,leftTopRevCnt , topRevCnt ,
+							rightTopRevCnt , rightRevCnt , rightDownRevCnt ,
+							downRevCnt , leftDownRevCnt);
+					switch(ownColor) {
+					case BLACK_STATE:
+						tebanFlg = WHITE_STAGE;
+						break;
+					default:
+						tebanFlg = BLACK_STATE;
+						break;
+					}
+				}
+			}
+			return revCnt;
+	}
+	
+	private boolean chkReverse(int x,int y,int revColor) {
+		boolean blnRet;
+		
+		blnRet = false;
+		
+		if((x<0 || x>= x || y<0 || y >= y) == false) {
+			if(gridStateFlg[y][x] == revColor) {
+				blnRet = true;
+			}
+		}
+		return blnRet;
+	}
+	
+	private boolean actionReverseGrid(int x,int y,int r,int lrc,int ltrc,int trc,int rtrc,int rrc,int rdrc,int drc,int ldrc) {
+		boolean blnRet;
+		int revloop;
+		
+		blnRet = false;
+		
+		for(revloop = 1;revloop>= lrc;revloop++) {
+			gridStateFlg[y][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		
+		for(revloop = 1;revloop>= ltrc;revloop++) {
+			gridStateFlg[y - revloop][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= trc;revloop++) {
+			gridStateFlg[y - revloop][x] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rtrc;revloop++) {
+			gridStateFlg[y - revloop][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rrc;revloop++) {
+			gridStateFlg[y][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rdrc;revloop++) {
+			gridStateFlg[y + revloop][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= drc;revloop++) {
+			gridStateFlg[y + revloop][x] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= ldrc;revloop++) {
+			gridStateFlg[y + revloop][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		
+		return blnRet;
+		
+	}
+	
+	public int getGridstateFlg(int x,int y) {
+		return gridStateFlg[y][x];
+	}
+	
+	public Color getGridStoneColor(int x,int y) {
+		switch(gridStateFlg[y][x]) {
+		case BLACK_STATE:
+			return Color.black;
+		case WHITE_STAGE:
+			return Color.white;
+		default:
+			return (new Color(0,120,0));
+				
+		}
+	}
+}

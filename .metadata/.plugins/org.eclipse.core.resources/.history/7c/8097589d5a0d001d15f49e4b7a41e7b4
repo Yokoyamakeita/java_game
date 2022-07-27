@@ -1,0 +1,36 @@
+package game2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		JFrame gameFrame = new JFrame();
+		
+		gameFrame.getContentPane().add(new CanvasBoard());
+		
+		gameFrame.setTitle("gamefram");
+		gameFrame.setSize(500,300);
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setVisible(true);
+	}
+	
+	class CanvasBoard extends JPanel{
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			g.setColor(Color.blue);
+			g.fillOval(10, 20, 100, 100);
+			g.drawOval(60, 120, 150, 100);
+			g.setColor(Color.red);
+			g.fillRect(240,80,200,100);
+		}
+	}
+}
+

@@ -1,0 +1,30 @@
+package game;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Main {
+	private static JFrame frame;
+	private static ImageIcon image;
+	private static JLabel label;
+	
+	public static void main(String[] args) {
+		frame = new JFrame();
+		image = new ImageIcon("kitten-g5bd788382_1920.jpg");
+		label = new JLabel(image);
+		
+		
+		frame.getContentPane().add(label);
+		frame.getContentPane().setLayout(null);
+		label.setBounds(0,0,640,480);
+		
+		frame.setTitle("sample");
+		frame.setSize(640,480);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
+	}
+	
+}

@@ -1,0 +1,111 @@
+package game2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Main {
+	
+	private static final int WIDTH = 320 + 16;
+	
+	private static final int HEIGHT = 340 + 20;
+	
+	private static final int GRID_X = 8;
+	
+	private static final int GRID_Y = 8;
+	
+	private static final int GRID_SIZE = 40;
+	
+	
+	
+	public static void main(String[] args) {	
+		
+		
+		JFrame gameFrame = new JFrame();
+		
+		gameFrame.getContentPane().add(new CanvasBoard(WIDTH,HEIGHT,GRID_X,GRID_Y,GRID_SIZE));
+		
+		gameFrame.setTitle("オセロ");
+		gameFrame.setSize(WIDTH,HEIGHT);
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setResizable(false);
+		gameFrame.setVisible(true);
+	}
+}
+	
+class CanvasBoard extends JPanel implements MouseListener{
+	
+	private int WIDTH;
+	private int HEIGHT;
+	private int GRID_X;
+	private int GRID_Y;
+	private int GRID_SIZE;
+	
+	
+	CanvasBoard(int W,int H,int X,int Y,int S){
+		WIDTH = W;
+		HEIGHT = H;
+		GRID_X = X;
+		GRID_Y = Y;
+		GRID_SIZE = S;
+		this.addMouseListener(this);
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		super.paintComponent(g);
+			
+		g.setColor(new Color(0,120,0));
+		g.fillRect(0,0,WIDTH,HEIGHT);
+		
+		g.setColor(Color.black);
+		
+		for(int loopY = 0;loopY < GRID_Y;loopY++) {
+			g.drawLine(0, loopY*GRID_SIZE, WIDTH, loopY*GRID_SIZE);
+		}
+		for(int loopX = 0;loopX < GRID_X;loopX++) {
+			g.drawLine(loopX*GRID_SIZE, 0, loopX*GRID_SIZE, HEIGHT);
+		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		clickPosX = e.getX();
+		clickPosY = e.getY();
+		repaint();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+}
+
+

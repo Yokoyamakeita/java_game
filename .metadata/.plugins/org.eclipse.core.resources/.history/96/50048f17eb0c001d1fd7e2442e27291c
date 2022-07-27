@@ -1,0 +1,159 @@
+package game;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Main {
+	
+//	画面の横幅
+	private static final int WIDTH = 256+16;
+//	画面の高さ
+	private static final int HEIGHT = 256+38;
+		
+		
+//	グリッドクラス
+	private static GridInfo Ginfo;
+		
+	
+//	呼び出し元
+	public static void main(String[] args) {
+		
+		GameFrame gameFrame = new GameFrame();
+		
+		gameFrame.setTitle("15Puzzles");
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setSize(WIDTH,HEIGHT);
+		
+		gameFrame.setVisible(true);
+		
+	}
+}
+
+
+
+
+
+class GameFrame extends JFrame implements MouseListener{
+	
+//	ゲームの状態フラグ　タイトル
+	private static final int Game_wait = 0;
+//	ゲームの状態フラグ　ゲーム中
+	private static final int Game_Ing = 1;
+//	ボードの横マス
+	private static final int x = 4;
+//　ボードの縦マス
+	private static final int y = 4;
+//	マスの横幅
+	private static final int Grid_width = 64;
+//	マスの縦幅
+	private static final int Grid_height = 64;
+//	ゲーム状態のフラグ
+	private static int gameFlag;
+//	グリッドクラス
+	private static GridInfo Ginfo;
+//	画像配列
+	private static ImageIcon titleImage[];
+//	ラベル
+	private static JLabel label1[];
+	
+//	コンストラクタ
+	GameFrame(){
+		
+		Ginfo = new GridInfo(x,y);
+		
+		titleImage = new ImageIcon[x*y+1];
+		
+		label1 = new JLabel[x*y+1];
+		
+		this.getContentPane().setLayout(null);
+		
+		
+//		1~15までのコマ画像を読み込み
+		DecimalFormat decimalFormat = new DecimalFormat("00");
+		
+		for(int i = 1;i < x * y;i++) {
+		
+			titleImage[i] = new ImageIcon("./src/game/images/"+decimalFormat.format(i)+".gif");
+			label1[i] = new JLabel(titleImage[i]);
+			
+			
+			for(int y = 0;y<y;y++) {
+				for(int x = 0;x<x;x++) {
+					if(Ginfo.getTitleNum(x,y) !=0) {
+						label1[Ginfo.getTitleNum(x,y)].setBounds(x*Grid_width,y*Grid_height,Grid_width,Grid_height);
+					}
+				
+				}
+			}
+			this.getContentPane().addMouseListener(this);
+		
+		}
+		
+		
+//		ゲーム初期
+		public void gemeInit() {
+			Ginfo.shfletitle();
+			
+			gameFlag = Game_Ing;
+		}
+		
+		
+		
+		
+		public void mouseClick(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+			int clicktitlex;
+			int clicktitley;
+			boolean blnRet;
+			
+			switch(gameFlag) {
+			case Game_wait:
+				System.out.println("GAME START");
+				gemeInit();
+				break;
+			case Game_Ing:
+//				クリックされた位置を取得
+				clicktitlex = (int)((e.getX()) / Grid_width);
+				clicktitley = (int)((e.getY()) / Grid_height);
+				
+			
+			
+			
+			}
+		}
+			
+		
+		
+	
+	}
+
+
+}
+		
+		
+		
+		frame = new JFrame();
+		image = new ImageIcon("./src/game/test.jpg");
+		label = new JLabel(image);
+		
+		
+		frame.getContentPane().add(label);
+		frame.getContentPane().setLayout(null);
+		label.setBounds(0,0,1280,960);
+		
+		frame.setTitle("sample");
+		frame.setSize(1280,960);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
+	}
+	
+}

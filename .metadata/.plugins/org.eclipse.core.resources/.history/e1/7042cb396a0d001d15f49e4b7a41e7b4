@@ -1,0 +1,91 @@
+package game2;
+
+import java.awt.Color;
+
+public class GridInfo {
+	public final int NON_STATE = 0;
+	public final int BLACK_STATE = 1;
+	public final int WHITE_STAGE = 2;
+	private int gridStateFlg[][];
+	private int tebanFlg;
+	
+	GridInfo(int x,int y){
+		gridStateFlg = new int[x][y];
+		for(int loopY = 0;loopY < y;loopY++) {
+			for(int loopX = 0;loopX < x;loopX++) {
+				gridStateFlg[loopX][loopY] = NON_STATE;
+			}
+		}
+//		初期設定
+		gridStateFlg[3][3] = WHITE_STAGE;
+		gridStateFlg[4][4] = WHITE_STAGE;
+		gridStateFlg[4][3] = BLACK_STATE;
+		gridStateFlg[3][4] = BLACK_STATE;
+		
+//		先手
+		tebanFlg = BLACK_STATE;
+		
+	}
+	
+	public void setGridstateFlg(int x,int y) {
+		if(tebanFlg == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+			tebanFlg = WHITE_STAGE;
+		}
+		else if(tebanFlg == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+			tebanFlg = BLACK_STATE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	public void setGridstateFlg(int x,int y,int owncolor) {
+		if(owncolor == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+		}else if(owncolor == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	public int reverseGrididStateFlg(int x,int y) {
+		boolean blnRet;
+		int ownColor;
+		int rexColor;
+		int revCnt = 0;
+		int leftRevCnt = 0;
+		int leftTopRevCnt = 0;
+		int topRevCnt = 0;
+		int rightTopRevCnt = 0;
+		int rightRevCnt = 0;
+		int rightDownRevCnt = 0;
+		int downRevCnt = 0;
+		int leftDownRevCnt = 0;
+		
+		int loopx;
+		int loopy;
+		int gridStateTemp;
+		
+		gridStateTemp = this.getGridstateFlg(x, y){
+			ownColor = tebanFlg;
+		}
+	}
+	
+	public int getGridstateFlg(int x,int y) {
+		return gridStateFlg[y][x];
+	}
+	
+	public Color getGridStoneColor(int x,int y) {
+		switch(gridStateFlg[y][x]) {
+		case BLACK_STATE:
+			return Color.black;
+		case WHITE_STAGE:
+			return Color.white;
+		default:
+			return (new Color(0,120,0));
+				
+		}
+	}
+}

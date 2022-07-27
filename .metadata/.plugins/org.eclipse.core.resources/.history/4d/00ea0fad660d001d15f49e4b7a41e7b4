@@ -1,0 +1,39 @@
+package game2;
+
+import java.awt.Color;
+
+public class GridInfo {
+	public final int NON_STATE = 0;
+	public final int BLACK_STATE = 1;
+	public final int WHITE_STAGE = 2;
+	private int gridStateFlg[][];
+	
+	GridInfo(int x,int y){
+		gridStateFlg = new int[x][y];
+		for(int loopY = 0;loopY < y;loopY++) {
+			for(int loopX = 0;loopX < x;loopX++) {
+				gridStateFlg[loopX][loopY] = NON_STATE;
+			}
+		}
+	}
+	
+	public void setGridstateFlg(int x,int y) {
+		gridStateFlg[y][x] = BLACK_STATE;
+	}
+	
+	public int getGridstateFlg(int x,int y) {
+		return gridStateFlg[y][x];
+	}
+	
+	public Color getGridStoneColor(int x,int y) {
+		switch(gridStateFlg[y][x]) {
+		case BLACK_STATE:
+			return Color.black;
+		case WHITE_STAGE:
+			return Color.white;
+		default:
+			return (new Color(0,120,0));
+				
+		}
+	}
+}

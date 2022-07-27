@@ -1,0 +1,43 @@
+package game;
+
+import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Main {
+	
+	private static final int WIDTH = 256+16;
+	private static final int HEIGHT = 256+38;
+		
+		
+	private static GridInfo Ginfo;
+		
+	
+	public static void main(String[] args) {
+		
+		GameFrame gameFrame = new GameFrame();
+		
+		gameFrame.setTitle("15Puzzles");
+		
+		gameFram
+		
+		
+		
+		frame = new JFrame();
+		image = new ImageIcon("./src/game/test.jpg");
+		label = new JLabel(image);
+		
+		
+		frame.getContentPane().add(label);
+		frame.getContentPane().setLayout(null);
+		label.setBounds(0,0,1280,960);
+		
+		frame.setTitle("sample");
+		frame.setSize(1280,960);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
+	}
+	
+}

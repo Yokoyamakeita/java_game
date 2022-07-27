@@ -1,0 +1,345 @@
+package game2;
+
+import java.awt.Color;
+
+public class GridInfo {
+	public final int NON_STATE = 0;
+	public final int BLACK_STATE = 1;
+	public final int WHITE_STAGE = 2;
+	private int gridStateFlg[][];
+	private int tebanFlg;
+	
+	GridInfo(int x,int y){
+		gridStateFlg = new int[x][y];
+		for(int loopY = 0;loopY < y;loopY++) {
+			for(int loopX = 0;loopX < x;loopX++) {
+				gridStateFlg[loopX][loopY] = NON_STATE;
+			}
+		}
+//		初期設定
+		gridStateFlg[3][3] = WHITE_STAGE;
+		gridStateFlg[4][4] = WHITE_STAGE;
+		gridStateFlg[4][3] = BLACK_STATE;
+		gridStateFlg[3][4] = BLACK_STATE;
+		
+//		先手
+		tebanFlg = BLACK_STATE;
+		
+	}
+	
+	public void setGridstateFlg(int x,int y) {
+		if(tebanFlg == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+			tebanFlg = WHITE_STAGE;
+		}
+		else if(tebanFlg == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+			tebanFlg = BLACK_STATE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	public void setGridstateFlg(int x,int y,int owncolor) {
+		if(owncolor == BLACK_STATE) {
+			gridStateFlg[y][x] = BLACK_STATE;
+		}else if(owncolor == WHITE_STAGE) {
+			gridStateFlg[y][x] = WHITE_STAGE;
+		}else {
+			gridStateFlg[y][x] = NON_STATE;
+		}
+	}
+	
+	 /* 囲まれた石を反転する（反転対象の抽出） */
+    public int reverseGridStateFlg(int gridX, int gridY, boolean chkOnlyFlg){
+        return reverseGridStateFlg(gridX, gridY, chkOnlyFlg, tebanFlg);
+    }
+    /* 囲まれた石を反転する（反転対象の抽出） */
+    public int reverseGridStateFlg(int gridX, int gridY, boolean chkOnlyFlg, int tebanColor){
+        boolean blnRet;
+        int ownColor;        //手番の石色
+        int revColor;        //反転する石色
+        int revCnt = 0;          //反転した石の総数
+        int leftRevCnt = 0;      //左方向へ反転した石の総数
+        int leftTopRevCnt = 0;   //左上方向へ反転した石の総数
+        int topRevCnt = 0;       //上方向へ反転した石の総数
+        int rightTopRevCnt = 0;  //右上方向へ反転した石の総数
+        int rightRevCnt = 0;     //右方向へ反転した石の総数
+        int rightDownRevCnt = 0; //右下方向へ反転した石の総数
+        int downRevCnt = 0;      //下方向へ反転した石の総数
+        int leftDownRevCnt = 0;  //左下方向へ反転した石の総数
+        int loopX;
+        int loopY;
+        int gridStateTemp;
+        
+        gridStateTemp = this.getGridStateFlg(gridX, gridY);
+        ownColor = tebanColor;
+        
+        /* クリックされたマスに何も置かれていないことを判定 */
+        if(gridStateTemp == NON_STATE){
+            /* 反転色を設定 */
+            switch(ownColor){
+                case BLACK_STATE:
+                    revColor = WHITE_STATE;
+                    break;
+                default:
+                    revColor = BLACK_STATE;
+                    break;
+            }
+            
+            /* 左方向への反転チェック */
+            loopX = gridX - 1;
+            while(this.chkReverse(loopX, gridY, revColor)){
+                leftRevCnt += 1;
+                loopX -= 1;
+                
+                if(loopX < 0){
+                    leftRevCnt = 0;
+                    break;
+                }
+            }
+            if(leftRevCnt > 0){
+                if(gridStateFlg[gridY][loopX] != ownColor){
+                    leftRevCnt = 0;
+                }
+            }
+            
+            /* 左上方向への反転チェック */
+            loopX = gridX - 1;
+            loopY = gridY - 1;
+            while(this.chkReverse(loopX, loopY, revColor)){
+                leftTopRevCnt += 1;
+                loopX -= 1;
+                loopY -= 1;
+                
+                if(loopX < 0 || loopY < 0){
+                    leftTopRevCnt = 0;
+                    break;
+                }
+            }
+            if(leftTopRevCnt > 0){
+                if(gridStateFlg[loopY][loopX] != ownColor){
+                    leftTopRevCnt = 0;
+                }
+            }
+            
+            /* 上方向への反転チェック */
+            loopY = gridY - 1;
+            while(this.chkReverse(gridX, loopY, revColor)){
+                topRevCnt += 1;
+                loopY -= 1;
+                
+                if(loopY < 0){
+                    topRevCnt = 0;
+                    break;
+                }
+            }
+            if(topRevCnt > 0){
+                if(gridStateFlg[loopY][gridX] != ownColor){
+                    topRevCnt = 0;
+                }
+            }
+            
+            /* 右上方向への反転チェック */
+            loopX = gridX + 1;
+            loopY = gridY - 1;
+            while(this.chkReverse(loopX, loopY, revColor)){
+                rightTopRevCnt += 1;
+                loopX += 1;
+                loopY -= 1;
+                
+                if(loopX >= GRID_X || loopY < 0){
+                    rightTopRevCnt = 0;
+                    break;
+                }
+            }
+            if(rightTopRevCnt > 0){
+                if(gridStateFlg[loopY][loopX] != ownColor){
+                    rightTopRevCnt = 0;
+                }
+            }
+            
+            /* 右方向への反転チェック */
+            loopX = gridX + 1;
+            while(this.chkReverse(loopX, gridY, revColor)){
+                rightRevCnt += 1;
+                loopX += 1;
+                
+                if(loopX >= GRID_X){
+                    rightRevCnt = 0;
+                    break;
+                }
+            }
+            if(rightRevCnt > 0){
+                if(gridStateFlg[gridY][loopX] != ownColor){
+                    rightRevCnt = 0;
+                }
+            }
+            
+            /* 右下方向への反転チェック */
+            loopX = gridX + 1;
+            loopY = gridY + 1;
+            while(this.chkReverse(loopX, loopY, revColor)){
+                rightDownRevCnt += 1;
+                loopX += 1;
+                loopY += 1;
+                
+                if(loopX >= GRID_X || loopY >= GRID_Y){
+                    rightDownRevCnt = 0;
+                    break;
+                }
+            }
+            if(rightDownRevCnt > 0){
+                if(gridStateFlg[loopY][loopX] != ownColor){
+                    rightDownRevCnt = 0;
+                }
+            }
+            
+            /* 下方向への反転チェック */
+            loopY = gridY + 1;
+            while(this.chkReverse(gridX, loopY, revColor)){
+                downRevCnt += 1;
+                loopY += 1;
+                
+                if(loopY >= GRID_Y){
+                    downRevCnt = 0;
+                    break;
+                }
+            }
+            if(downRevCnt > 0){
+                if(gridStateFlg[loopY][gridX] != ownColor){
+                    downRevCnt = 0;
+                }
+            }
+            
+            /* 左下方向への反転チェック */
+            loopX = gridX - 1;
+            loopY = gridY + 1;
+            while(this.chkReverse(loopX, loopY, revColor)){
+                leftDownRevCnt += 1;
+                loopX -= 1;
+                loopY += 1;
+                
+                if(loopX < 0 || loopY >= GRID_Y){
+                    leftDownRevCnt = 0;
+                    break;
+                }
+            }
+            if(leftDownRevCnt > 0){
+                if(gridStateFlg[loopY][loopX] != ownColor){
+                    leftDownRevCnt = 0;
+                }
+            }
+            
+            /* 反転する石の総数を算出 */
+            revCnt = leftRevCnt + leftTopRevCnt + topRevCnt + rightTopRevCnt + rightRevCnt + rightDownRevCnt + downRevCnt + leftDownRevCnt;
+            
+            /* 反転対象がなければ */
+            if(revCnt < 1){
+                //何もせずに終了
+            
+            /* 反転対象があれば */
+            }else{
+                /* 実際に石を反転する場合（反転対象有無のチェックのみであれば何もしない） */
+                if(chkOnlyFlg == false){
+                    /* 囲んだ石を反転する */
+                    blnRet = this.actionReverseGrid(gridX, gridY, ownColor, leftRevCnt, leftTopRevCnt, topRevCnt, rightTopRevCnt, rightRevCnt, rightDownRevCnt, downRevCnt, leftDownRevCnt);
+                    /* 今回のターンで置かれた石をセットする */
+                    this.setGridStateFlg(gridX, gridY, ownColor);
+                    /* 手番フラグを更新 */
+                    switch(ownColor){
+                        case BLACK_STATE:
+                            tebanFlg =  WHITE_STATE;
+                            break;
+                        default:
+                            tebanFlg =  BLACK_STATE;
+                            break;
+                    }
+                }
+            }
+        }
+        /* 戻り値には反転した石の総数を指定 */
+        return revCnt;
+    }
+	
+	private boolean chkReverse(int x,int y,int revColor) {
+		boolean blnRet;
+		
+		blnRet = false;
+		
+		if((x<0 || x>= x || y<0 || y >= y) == false) {
+			if(gridStateFlg[y][x] == revColor) {
+				blnRet = true;
+			}
+		}
+		return blnRet;
+	}
+	
+	private boolean actionReverseGrid(int x,int y,int r,int lrc,int ltrc,int trc,int rtrc,int rrc,int rdrc,int drc,int ldrc) {
+		boolean blnRet;
+		int revloop;
+		
+		blnRet = false;
+		
+		for(revloop = 1;revloop>= lrc;revloop++) {
+			gridStateFlg[y][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		
+		for(revloop = 1;revloop>= ltrc;revloop++) {
+			gridStateFlg[y - revloop][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= trc;revloop++) {
+			gridStateFlg[y - revloop][x] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rtrc;revloop++) {
+			gridStateFlg[y - revloop][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rrc;revloop++) {
+			gridStateFlg[y][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= rdrc;revloop++) {
+			gridStateFlg[y + revloop][x+revloop] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= drc;revloop++) {
+			gridStateFlg[y + revloop][x] = r;
+			
+			blnRet = true;
+		}
+		for(revloop = 1;revloop>= ldrc;revloop++) {
+			gridStateFlg[y + revloop][x-revloop] = r;
+			
+			blnRet = true;
+		}
+		
+		return blnRet;
+		
+	}
+	
+	public int getGridstateFlg(int x,int y) {
+		return gridStateFlg[y][x];
+	}
+	
+	public Color getGridStoneColor(int x,int y) {
+		switch(gridStateFlg[y][x]) {
+		case BLACK_STATE:
+			return Color.black;
+		case WHITE_STAGE:
+			return Color.white;
+		default:
+			return (new Color(0,120,0));
+				
+		}
+	}
+}

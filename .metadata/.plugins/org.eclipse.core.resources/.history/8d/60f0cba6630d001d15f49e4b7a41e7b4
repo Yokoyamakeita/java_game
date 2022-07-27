@@ -1,0 +1,17 @@
+package game2;
+
+public class GridInfo {
+	public final int NON_STAT = 0;
+	public final int BLACK_STATE = 1;
+	public final int WHITE_STAGE = 2;
+	private int gridStateFlg[][];
+	
+	GridInfo(int x,int y){
+		gridStateFlg = new int[x][y];
+		for(int loopY = 0;loopY < x;loopY++) {
+			for(int loopX = 0;loopX < x;loopX++) {
+				gridStateFlg[loopX][loopY] = NON_STATE;
+			}
+		}
+	}
+}

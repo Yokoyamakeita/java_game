@@ -1,0 +1,15 @@
+package game2;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		System.out.println("再帰処理の結果:"+sum(10));
+	}
+	
+	static int sum(int i) {
+		if(i >10) {
+			return sum(i-1);
+		}
+		return i;
+	}
+}

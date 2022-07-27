@@ -1,0 +1,167 @@
+package game;
+
+public class GridInfo {
+	private int gridXNum;
+	private int gridYNum;
+	private int gridFlag[][];
+	
+	GridInfo(int x,int y){
+		gridXNum = x;
+		gridYNum = y;
+		gridFlag = new int[gridXNum][gridYNum];
+		
+		for(int i=0; i<gridYNum;i++) {
+			for(int o=0; o<gridYNum;o++) {
+				gridFlag[i][o] = (i*y)+o+1;
+			}
+		}
+		
+		gridFlag[y-1][x-1]=0;
+	}
+		
+		public void shfleTile() {
+			int cTX = 0;
+			int cTY = 0;
+			int cedTX = 0;
+			int cedTY = 0;
+			
+			int ran;
+			boolean blnRet = false;
+			
+			for(int i = 0;i<500;i++) {
+				cTX = getEmpGridXNum();
+				cTY = getEmpGridYNum();
+				
+				ran = (int)(Math.random()*4);
+				
+				switch(ran) {
+				case 0:
+					blnRet = moveTile(cTX+1,cTY);
+					cedTX = cTX+1;
+					cedTY = cTY;
+					break;
+				case 1:
+					blnRet = moveTile(cTX-1,cTY);
+					cedTX = cTX-1;
+					cedTY = cTY;
+					break;
+				case 2:
+					blnRet = moveTile(cTX,cTY+1);
+					cedTX = cTX;
+					cedTY = cTY+1;
+					break;
+				case 3:
+					blnRet = moveTile(cTX,cTY-1);
+					cedTX = cTX;
+					cedTY = cTY-1;
+					break;
+				}
+				if(blnRet==true) {
+					cTX = cedTX;
+					cTY = cedTY;
+					moveTile(cTX,cTY);
+				}
+			}
+		}
+		public int getEmpGridXNum() {
+			int rx = 0;
+			for (int a = 0;a<gridYNum;a++) {
+				for (int b = 0;b<gridXNum;b++) {
+					if(gridFlag[a][b]==0) {
+						rx = b;
+					}
+				}
+			}
+			return rx;
+		}
+		public int getEmpGridYNum() {
+			int ry = 0;
+			for (int a = 0;a<gridYNum;a++) {
+				for (int b = 0;b<gridXNum;b++) {
+					if(gridFlag[a][b]==0) {
+						ry = a;
+					}
+				}
+			}
+			return ry;
+		}
+		
+		public boolean moveTile(int cTX,int cTY) {
+			boolean blnRet;
+			boolean blnExist;
+			blnRet = true;
+			blnExist = false;
+			
+			while(true) {
+				/* 右に移動できるか判別 */
+				if(cTX + 1 < gridXNum && cTX >= 0 && cTY >= 0 && cTY < gridYNum){
+					if(gridFlag[cTY][cTX + 1] == 0){
+						gridFlag[cTY][cTX + 1] = gridFlag[cTY][cTX];
+						blnExist = true;
+						break;
+					}
+				}
+				/* 左に移動できるか判別 */
+				if(cTX - 1 >= 0 && cTX < gridXNum && cTY >= 0 && cTY < gridYNum){
+					if(gridFlag[cTY][cTX - 1] == 0){
+						gridFlag[cTY][cTX - 1] = gridFlag[cTY][cTX];
+						blnExist = true;
+						break;
+					}
+				}
+				/* 下に移動できるか判別 */
+				if(cTY + 1 < gridYNum && cTY >= 0 && cTX >= 0 && cTX < gridXNum){
+					if(gridFlag[cTY + 1][cTX] == 0){
+						gridFlag[cTY + 1][cTX] = gridFlag[cTY][cTX];
+						blnExist = true;
+						break;
+					}
+				}
+				/* 上に移動できるか判別 */
+				if(cTY - 1 >= 0 && cTY < gridYNum && cTX >= 0 && cTX < gridXNum){
+					if(gridFlag[cTY - 1][cTX] == 0){
+						gridFlag[cTY - 1][cTX] = gridFlag[cTY][cTX];
+						blnExist = true;
+						break;
+					}
+				}
+				break;
+			}
+//			クリックされたマスからコマを移動させたらマスを空にする
+			
+			if(blnExist == true) {
+				gridFlag[cTY][cTX] = 0;
+			}
+			return blnExist;
+		}
+		
+		public int getTileNum(int x,int y) {
+			return gridFlag[y][x];
+		}
+		
+		public boolean getGameFlag() {
+			boolean blnRet;
+			blnRet = true;
+			
+			for(int i = 0;i<gridYNum;i++) {
+				for(int o = 0;o<gridXNum;o++) {
+					if(i == gridYNum -1 && x == gridXNum -1) {
+						if(gridFlag[i][o] != 0) {
+							blnRet = false;
+						}
+					}
+				
+				
+				
+				
+				
+				
+				
+				else {
+					
+				}
+			}
+			
+		}
+
+}

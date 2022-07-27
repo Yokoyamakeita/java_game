@@ -1,0 +1,38 @@
+package game2;
+
+import javax.swing.JFrame;
+
+public class Main {
+	
+	private static final int WIDTH = 320 + 16;
+	
+	private static final int HEIGHT = 340 + 20;
+	
+	private static final int GRID_X = 8;
+	
+	private static final int GRID_Y = 8;
+	
+	private static final int GRID_SIZE = 40;
+	
+	
+	
+	public static void main(String[] args) {	
+		
+		
+		JFrame gameFrame = new JFrame();
+		
+		gameFrame.getContentPane().add(new CanvasBoard(WIDTH,HEIGHT,GRID_X,GRID_Y,GRID_SIZE));
+		
+		gameFrame.setTitle("オセロ");
+		gameFrame.setSize(WIDTH,HEIGHT);
+		
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		gameFrame.setResizable(false);
+		gameFrame.setVisible(true);
+	}
+}
+	
+
+
+
